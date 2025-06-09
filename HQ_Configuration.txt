@@ -1,0 +1,335 @@
+################## Sales-SW ###############################################
+configure terminal
+interface range e0/0, e0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+vtp mode client
+vtp domain Cisco.Com
+vtp password cisco
+vtp version 2
+exit
+do write
+interface range e0/2-3
+description  "This Access ports for VLAN 10"
+switchport mode access
+switchport access vlan 10
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+do write
+################## Customer Services-SW ####################################
+configure terminal
+interface range e0/0, e0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+vtp mode client
+vtp domain Cisco.Com
+vtp password cisco
+vtp version 2
+exit
+do write
+interface range e0/2-3
+description  "This Access ports for VLAN 11"
+switchport mode access
+switchport access vlan 11
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+do write
+################## Human Resources-SW ####################################
+configure terminal
+interface range e0/0, e0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+vtp mode client
+vtp domain Cisco.Com
+vtp password cisco
+vtp version 2
+exit
+do write
+interface range e0/2-3
+description  "This Access ports for VLAN 12"
+switchport mode access
+switchport access vlan 12
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+do write
+################## Finance-SW ###########################################
+configure terminal
+interface range e0/0, e0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+vtp mode client
+vtp domain Cisco.Com
+vtp password cisco
+vtp version 2
+do write
+interface range e0/2-3
+description  "This Access ports for VLAN 13"
+switchport mode access
+switchport access vlan 13
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+do write
+################## HQ_Controller ####################################
+configure terminal
+interface range e0/1, e0/2, e0/3, e1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+interface range e1/3, e1/2, e1/1
+channel-group 5 mode desirable
+exit
+interface port-channel 5
+description "Link to Core-Standby"
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,11,12,13
+exit
+interface e0/0
+no switchport
+no shutdown
+ip address 197.163.146.1 255.255.255.252
+exit
+vtp mode server
+vtp domain Cisco.Com
+vtp password cisco
+vtp version 2
+do write
+vlan 10
+name "Sales & Marketing Department"
+exit
+vlan 11
+name "Customer Services Department"
+exit
+vlan 12
+name "Human Resources Department"
+exit
+vlan 13
+name "Finance Department"
+exit
+do write
+interface vlan 10
+no shutdown
+ip address 102.136.25.1 255.255.255.192
+standby 5 ip 102.136.25.2
+standby 5 priority 110
+standby 5 preempt
+standby 5 version 2
+ip helper-address 197.163.146.2
+exit
+interface vlan 11
+no shutdown
+ip address 102.136.25.65 255.255.255.192
+standby 6 ip 102.136.25.66
+standby 6 priority 110
+standby 6 preempt
+standby 6 version 2
+ip helper-address 197.163.146.2
+exit
+interface vlan 12
+no shutdown
+ip address 102.136.25.129 255.255.255.192
+standby 7 ip 102.136.25.130
+standby 7 priority 110
+standby 7 preempt
+standby 7 version 2
+ip helper-address 197.163.146.2
+exit
+interface vlan 13
+no shutdown
+ip address 102.136.25.193 255.255.255.192
+standby 8 ip 102.136.25.194
+standby 8 priority 110
+standby 8 preempt
+standby 8 version 2
+ip helper-address 197.163.146.2
+exit
+do write
+ip routing
+router bgp 3001
+bgp router-id 1.1.2.1
+neighbor 197.163.146.2 remote-as 3001
+network 197.163.146.0 mask 255.255.255.252
+network 102.136.25.0 mask 255.255.255.192
+network 102.136.25.64 mask 255.255.255.192
+network 102.136.25.128 mask 255.255.255.192
+network 102.136.25.192 mask 255.255.255.192
+exit
+do write
+################## HQ_Standby ####################################
+configure terminal
+interface range e0/1, e0/2, e0/3, e1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+interface range e1/3, e1/2, e1/1
+channel-group 5 mode desirable
+exit
+interface port-channel 5
+description "Link to Core-Controller"
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,11,12,13
+exit
+interface e0/0
+no switchport
+no shutdown
+ip address 197.163.146.5 255.255.255.252
+exit
+vtp mode Client
+vtp domain Cisco.Com
+vtp password cisco
+vtp version 2
+exit
+do write
+interface vlan 10
+no shutdown
+ip address 102.136.25.1 255.255.255.192
+standby 5 ip 102.136.25.2
+standby 5 priority 90
+standby 5 preempt
+ip helper-address 197.163.146.6
+exit
+interface vlan 11
+no shutdown
+ip address 102.136.25.65 255.255.255.192
+standby 6 ip 102.136.25.66
+standby 6 priority 90
+standby 6 preempt
+ip helper-address 197.163.146.6
+exit
+interface vlan 12
+no shutdown
+ip address 102.136.25.129 255.255.255.192
+standby 7 ip 102.136.25.130
+standby 7 priority 90
+standby 7 preempt
+ip helper-address 197.163.146.6
+exit
+interface vlan 13
+no shutdown
+ip address 102.136.25.193 255.255.255.192
+standby 8 ip 102.136.25.194
+standby 8 priority 90
+standby 8 preempt
+ip helper-address 197.163.146.6
+exit
+do write
+ip routing
+router bgp 3001
+bgp router-id 1.1.2.2
+neighbor 197.163.146.6 remote-as 3001
+network 197.163.146.0 mask 255.255.255.252
+network 102.136.25.0 mask 255.255.255.192
+network 102.136.25.64 mask 255.255.255.192
+network 102.136.25.128 mask 255.255.255.192
+network 102.136.25.192 mask 255.255.255.192
+exit
+do write
+################## HQ_Gateway ####################################
+configure terminal
+interface e0/1
+description "Layer 3 port connect with HQ-Controller "
+no shutdown
+ip address 197.163.146.2 255.255.255.252
+exit
+interface e0/2
+description "Layer 3 port connect with HQ-Backup "
+no shutdown
+ip address 197.163.146.6 255.255.255.252
+exit
+interface e0/0
+description "Layer 3 port connect with HQ_Firewall "
+no shutdown
+ip address 197.163.146.9 255.255.255.252
+exit
+do write
+router bgp 3001
+bgp router-id 1.1.2.3
+neighbor 197.163.146.10 remote-as 3001
+neighbor 197.163.146.1 remote-as 3001
+neighbor 197.163.146.5 remote-as 3001
+network 197.163.146.0 mask 255.255.255.252
+network 197.163.146.4 mask 255.255.255.252
+network 197.163.146.8 mask 255.255.255.252
+exit
+do write
+service dhcp
+ip dhcp pool SalesAndMarkting
+network  102.136.25.0 255.255.255.192
+default-router 102.136.25.1
+dns-server 5.5.5.5
+domain-name cisco.com
+exit
+ip dhcp pool CustomerService
+network  102.136.25.64 255.255.255.192
+default-router 102.136.25.65
+dns-server 5.5.5.5
+domain-name cisco.com
+exit
+ip dhcp pool HR
+network  102.136.25.128 255.255.255.192
+default-router 102.136.25.129
+dns-server 5.5.5.5
+domain-name cisco.com
+exit
+ip dhcp pool Finance
+network  102.136.25.192 255.255.255.192
+default-router 102.136.25.193
+dns-server 5.5.5.5
+domain-name cisco.com
+exit
+do write
+################## DataCenter_SW ####################################
+configure terminal
+vlan 99
+name "DataCenter-Environment"
+exit
+interface e0/0
+description "Trunk port load traffic of Servers, connect with Firewall "
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+interface e0/1
+description "Access port for VLAN 99, connect to NAS-Storage"
+switchport mode access
+switchport access vlan 99
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation protect
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+interface e0/2
+description "Access port for VLAN 99, connect to WEB-SERVICES"
+switchport mode access
+switchport access vlan 99
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation protect
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+interface e0/3
+description "Access port for VLAN 99, connect to Filezella-FTP"
+switchport mode access
+switchport access vlan 99
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation protect
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+do write
+################## HQ_Firewall-ASA ####################################
+

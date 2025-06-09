@@ -1,0 +1,56 @@
+Sales & Marketing Department
+Users : 60
+VLAN ID : 10
+NETWORK :  102.136.25.0 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.25.1 /26
+###########################################
+Customer Services Department
+Users : 60
+VLAN ID : 11
+NETWORK :  102.136.25.64 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.25.65 /26
+###########################################
+Human Resources Department
+Users : 60
+VLAN ID : 12
+NETWORK :  102.136.25.128 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.25.129 /26
+###########################################
+Finance Department
+Users : 60
+VLAN ID : 13
+NETWORK :  102.136.25.192 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.25.193 /26
+###########################################
+Accounting & Admin Department
+Users : 60
+VLAN ID : 14
+NETWORK :  102.136.26.0 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.26.1 /26
+###########################################
+Network Operations Department
+Users : 60
+VLAN ID : 15
+NETWORK :  102.136.26.64 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.26.65 /26
+###########################################
+Legal & Compliance Department
+Users : 60
+VLAN ID : 16
+NETWORK :  102.136.26.128 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.26.129 /26
+###########################################
+Information Technology Department
+Users : 60
+VLAN ID : 17
+NETWORK :  102.136.26.192 /26
+Subnet : 255.255.255.192
+Gateway: 102.136.26.193 /26
+###########################################

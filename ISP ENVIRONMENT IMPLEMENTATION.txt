@@ -1,0 +1,200 @@
+########### ISP_OREEDOO01 #################################
+configure terminal
+interface e0/0
+no shutdown
+description "Connect with HQ-Firewall "
+duplex full
+ip address 201.157.123.2 255.255.255.252
+exit
+interface e0/1
+no shutdown
+description "Connect to ISP_OREEDOO03 "
+duplex full
+ip address 200.166.148.1 255.255.255.252
+exit
+interface e0/2
+no shutdown
+description "Connect to ISP_OREEDOO02 "
+duplex full
+ip address 200.166.148.5 255.255.255.252
+exit
+do write
+router bgp 3000
+bgp router-id 3.3.3.3
+neighbor 201.157.123.1 remote-as 3001
+neighbor 200.160.148.2 remote-as 3000
+neighbor 200.160.148.6 remote-as 3000
+network 201.157.123.0 mask 255.255.255.252
+network 200.160.148.0 mask 255.255.255.252
+network 200.160.148.4 mask 255.255.255.252
+exit
+do write
+########### ISP_OREEDOO02 #################################
+configure terminal
+interface e0/0
+description "Connect to ISP_OREEDOO01 "
+duplex full
+ip address 200.166.148.6 255.255.255.252
+exit
+interface e0/1
+description "Connect to ISP_OREEDOO03 "
+duplex full
+ip address 200.166.148.9 255.255.255.252
+exit
+interface e0/2
+description "Connect to ISP_OREEDOO04 "
+duplex full
+ip address 200.166.148.17 255.255.255.252
+exit
+interface e0/3
+description "Connect to ISP_OREEDOO05 "
+duplex full
+ip address 200.166.148.37 255.255.255.252
+exit
+router bgp 3000
+bgp router-id 4.4.4.4
+neighbor 200.160.148.5 remote-as 3000
+neighbor 200.160.148.10 remote-as 3000
+neighbor 200.166.148.18 remote-as 3000
+neighbor 200.166.148.38 remote-as 3000
+network 200.160.148.4 mask 255.255.255.252
+network 200.160.148.8 mask 255.255.255.252
+network 200.166.148.16 mask 255.255.255.252
+network 200.166.148.36 mask 255.255.255.252
+exit
+do write
+########### ISP_OREEDOO03 #################################
+configure terminal
+interface e0/0
+description "Connect to ISP_OREEDOO01 "
+duplex full
+ip address 200.166.148.2 255.255.255.252
+exit
+interface e0/2
+description "Connect to ISP_OREEDOO02 "
+duplex full
+ip address 200.166.148.10 255.255.255.252
+exit
+interface e0/1
+description "Connect to ISP_OREEDOO04 "
+duplex full
+ip address 200.166.148.13 255.255.255.252
+exit
+interface e0/3
+description "Connect to ISP_OREEDOO05 "
+duplex full
+ip address 200.166.148.21 255.255.255.252
+exit
+interface e1/0
+description "Connect to EVE-Managment "
+duplex full
+ip dhcp
+exit
+router bgp 3000
+bgp router-id 5.5.5.5
+neighbor 200.160.148.1 remote-as 3000
+neighbor 200.160.148.9 remote-as 3000
+neighbor 200.166.148.14 remote-as 3000
+neighbor 200.166.148.22 remote-as 3000
+network 200.160.148.0 mask 255.255.255.252
+network 200.160.148.8 mask 255.255.255.252
+network 200.166.148.12 mask 255.255.255.252
+network 200.166.148.20 mask 255.255.255.252
+exit
+do write
+########### ISP_OREEDOO04 #################################
+configure terminal
+interface e0/0
+description "Connect to ISP_OREEDOO03 "
+duplex full
+ip address 200.166.148.14 255.255.255.252
+exit
+interface e0/1
+description "Connect to ISP_OREEDOO05 "
+duplex full
+ip address 200.166.148.25 255.255.255.252
+exitinterface e0/2
+description "Connect to ISP_OREEDOO02 "
+duplex full
+ip address 200.166.148.18 255.255.255.252
+exitinterface e0/3
+description "Connect to ISP_OREEDOO06 "
+duplex full
+ip address 200.166.148.33 255.255.255.252
+exit
+interface e1/0
+description "Connect to EVE-NG "
+duplex full
+ip dhcp
+exit
+router bgp 3000
+bgp router-id 6.6.6.6
+neighbor 200.166.148.13 remote-as 3000
+neighbor 200.166.148.26 remote-as 3000
+neighbor 200.166.148.17 remote-as 3000
+neighbor 200.166.148.34 remote-as 3000
+network 200.166.148.12 mask 255.255.255.252
+network 200.166.148.24 mask 255.255.255.252
+network 200.166.148.16 mask 255.255.255.252
+network 200.166.148.32 mask 255.255.255.252
+exit
+do write
+########### ISP_OREEDOO05 #################################
+configure terminal
+interface e0/0
+description "Connect to ISP_OREEDOO03 "
+duplex full
+ip address 200.166.148.22 255.255.255.252
+exit
+interface e0/1
+description "Connect to ISP_OREEDOO04 "
+duplex full
+ip address 200.166.148.26 255.255.255.252
+exitinterface e0/2
+description "Connect to ISP_OREEDOO02 "
+duplex full
+ip address 200.166.148.38 255.255.255.252
+exit
+interface e0/3
+description "Connect to ISP_OREEDOO06 "
+duplex full
+ip address 200.166.148.29 255.255.255.252
+exit
+router bgp 3000
+bgp router-id 7.7.7.7
+neighbor 200.166.148.21 remote-as 3000
+neighbor 200.166.148.25 remote-as 3000
+neighbor 200.166.148.37 remote-as 3000
+neighbor 200.166.148.30 remote-as 3000
+network 200.166.148.20 mask 255.255.255.252
+network 200.166.148.24 mask 255.255.255.252
+network 200.166.148.36 mask 255.255.255.252
+network 200.166.148.28 mask 255.255.255.252
+exit
+do write
+########### ISP_OREEDOO06 #################################
+configure terminal
+interface e0/0
+description "Connect to ISP_OREEDOO04 "
+duplex full
+ip address 200.166.148.34 255.255.255.252
+exit
+interface e0/1
+description "Connect to ISP_OREEDOO05 "
+duplex full
+ip address 200.166.148.30 255.255.255.252
+exit
+interface e0/2
+description "Connect to Branch-Firewall  "
+duplex full
+ip address 100.120.113.6 255.255.255.252
+router bgp 3000
+bgp router-id 8.8.8.8
+neighbor 200.166.148.33 remote-as 3000
+neighbor 200.166.148.29 remote-as 3000
+neighbor 100.120.113.5 remote-as 3002
+network 200.166.148.32 mask 255.255.255.252
+network 200.166.148.28 mask 255.255.255.252
+network 100.120.113.4 mask 255.255.255.252
+exit
+do write

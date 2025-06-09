@@ -1,0 +1,29 @@
+enable
+configure terminal
+hostname Departments
+enable password cisco
+enable secret cisco
+banner motd $
+#########################
+UNAUTHORIZED ACCESS
+#########################
+$
+service password-encryption
+ip domain-name Cisco.com
+username Admin password cisco
+line console 0
+passwrod cisco
+login
+logging synchronous
+exec-timeout 10 0
+exit
+crypto key generate rsa
+1024
+ip ssh version 2
+line vty 0 4
+login local
+logging synchronous
+exec-timeout 10 0
+transport input ssh
+exit
+do write

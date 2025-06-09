@@ -1,0 +1,54 @@
+############### HQ-Firewall #####################################
+configuure terminal
+>>>>>>>>>>> Basics Configuration
+hostname  HQ-Firewall
+enable password MG@123
+domain-name cisco.com
+clock set 14:40:00 Jun 09 2025
+>>>>>>>>>> Interfaces configuration
+interface Gig0/0
+no shutdown
+exit
+interface Gig0/0.99
+description # This interface Connect to Data-Center Subnet in DMZ Zone #
+no shutdown
+nameif DMZ
+security-level 50
+ip address 125.168.132.129 255.255.255.240
+exit
+interface Gig0/1
+description # This interface Connect to Company-LAN Subnet in Inside Zone #
+no shutdown
+nameif Inside
+security-level 80
+ip address 197.163.146.10 255.255.255.252
+exit
+interface Gig0/2
+description # This interface Connect to Company-ISP Internet Subnet in Outside Zone #
+no shutdown
+nameif Outside
+security-level 10
+ip address 201.157.123.1 255.255.255.252
+exit
+write memory
+
+############### Branch-Firewall #####################################
+configure terminal
+hostname BR-Firewall
+enable password MG@123
+clock set 14:53:00 Jun 09 2025
+interface Gig0/1
+description # This interface Connect to Company-LAN Subnet in Inside Zone #
+no shutdown
+nameif Inside
+security-level 80
+ip address 197.200.100.2 255.255.255.252
+exit
+interface Gig0/0
+description # This interface Connect to Company-ISP Internet Subnet in Outside Zone #
+no shutdown
+nameif Outside
+security-level 10
+ip address 100.120.113.5 255.255.255.252
+exit
+write memory
